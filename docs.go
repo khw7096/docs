@@ -8,7 +8,7 @@ import (
 	"net/http"
 	)
 
-func ispath(path string) bool {
+func isPath(path string) bool {
 	if _, err := os.Stat(path); err == nil {
 		return true
 	} else {
@@ -16,7 +16,7 @@ func ispath(path string) bool {
 	}
 }
 
-func LocalIP() string {
+func localIP() string {
 	var iplist []string
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
@@ -33,9 +33,9 @@ func LocalIP() string {
 	return iplist[0]
 }
 
-func docserver(docpath string, port string) {
+func docServer(docpath string, port string) {
 	http.Handle("/", http.StripPrefix("/", http.FileServer(http.Dir(docpath))))
-	fmt.Printf("Web Server Start : http://%s%s\n", LocalIP(), port)
+	fmt.Printf("Web Server Start : http://%s%s\n", localIP(), port)
 	http.ListenAndServe(port, nil)
 }
 
@@ -43,17 +43,15 @@ func main() {
 	docpathPtr := flag.String("docpath", "", "docpath")
 	portPtr := flag.String("server", "", "service port ex):8080")
 	flag.Parse()
-
-	if *docpathPtr != "" && *portPtr != "" {
-		if ispath(*docpathPtr) == true {
-			docserver(*docpathPtr, *portPtr)
-		} else {
-			fmt.Println("Target path do not exist")
-			os.Exit(1)
-		}
-	} else {
+	if *docpathPtr == "" || *portPtr == "" {
 		fmt.Println("Docs is simple doc server.")
 		fmt.Println("Copyright (C) 2015  kimhanwoong")
 		flag.PrintDefaults()
+		os.Exit(1)
 	}
+	if !isPath(*docpathPtr) {
+		fmt.Println("Target path do not exist")
+		os.Exit(1)
+	}
+	docServer(*docpathPtr, *portPtr)
 }
