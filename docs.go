@@ -53,7 +53,7 @@ func main() {
 		}
 	} else {
 		fmt.Println("Docs is simple doc server.")
-	    fmt.Println("Copyright (C) 2015  kimhanwoong")
+		fmt.Println("Copyright (C) 2015  kimhanwoong")
 		flag.PrintDefaults()
 	}
 }
