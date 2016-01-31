@@ -1,7 +1,10 @@
 # docs
+- Simple Doc Server
 
-Simple Doc Server
+## How to use
+- docs -http :8080 -docpath "targetpath"
 
-How to use
-
-docs -server :80 -docpath "targetpath"
+## install
+```
+go get -u github.com/khw7096/docs
+```
