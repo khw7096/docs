@@ -41,7 +41,7 @@ func docServer(docpath string, port string) {
 
 func main() {
 	docpathPtr := flag.String("docpath", "", "docpath")
-	portPtr := flag.String("server", "", "service port ex):8080")
+	portPtr := flag.String("http", "", "service port ex):8080")
 	flag.Parse()
 	if *docpathPtr == "" || *portPtr == "" {
 		fmt.Println("Docs is simple doc server.")
