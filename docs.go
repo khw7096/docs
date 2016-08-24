@@ -6,22 +6,14 @@ import (
 	"os"
 	"net"
 	"net/http"
+	"log"
 	)
-
-func isPath(path string) bool {
-	if _, err := os.Stat(path); err == nil {
-		return true
-	} else {
-		return false
-	}
-}
 
 func localIP() string {
 	var iplist []string
 	addrs, err := net.InterfaceAddrs()
 	if err != nil {
-		os.Stderr.WriteString("Error: " + err.Error() + "\n")
-		os.Exit(1)
+		log.Fatal(err.Error())
 	}
 	for _, a := range addrs {
 		if ipnet, ok := a.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
@@ -40,18 +32,17 @@ func docServer(docpath string, port string) {
 }
 
 func main() {
-	docpathPtr := flag.String("docpath", "", "docpath")
+	pathPtr := flag.String("path", "", "docpath")
 	portPtr := flag.String("http", "", "service port ex):8080")
 	flag.Parse()
-	if *docpathPtr == "" || *portPtr == "" {
+	if *pathPtr == "" || *portPtr == "" {
 		fmt.Println("Docs is simple doc server.")
 		fmt.Println("Copyright (C) 2015  kimhanwoong")
 		flag.PrintDefaults()
 		os.Exit(1)
 	}
-	if !isPath(*docpathPtr) {
-		fmt.Println("Target path do not exist")
-		os.Exit(1)
+	if _, err := os.Stat(*pathPtr); err != nil {
+		log.Fatal("Target path do not exist")
 	}
-	docServer(*docpathPtr, *portPtr)
+	docServer(*pathPtr, *portPtr)
 }
