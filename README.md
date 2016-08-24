@@ -2,7 +2,9 @@
 - Simple Doc Server
 
 ## How to use
-- docs -http :8080 -docpath "targetpath"
+```
+docs -http :8080 -path "targetpath"
+```
 
 ## install
 ```
